@@ -68,10 +68,10 @@ if(placeBtn){
 if(shovelBtn){
     shovelBtn.addEventListener('click', ()=>{
         shovelMode = !shovelMode;
-        if(shovelMode){
+        if (shovelMode){
             shovelBtn.style.outline = '2px solid yellow';
             shovelBtn.style.background = 'rgba(255,255,0,0.3)';
-            canvas.style.cursor = `url('assets/svg/shovel.svg') 25 25, auto`;
+            canvas.style.cursor = `url('../assets/svg/shovel.svg') 25 25, auto`;
             // exit zombie mode
             placeZombieMode = false;
             if(placeBtn){
