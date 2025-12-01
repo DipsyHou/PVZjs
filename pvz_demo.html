@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>🟢🟢🟢🟢🟢</title>
+    <link rel="stylesheet" href="css/pvz.css">
+</head>
+<body>
+    <div id="ui">
+        <div id="topbar">
+                <div id="sun">Sun: <span id="sun-count">0</span></div>
+                <div id="plant-slot-bar"></div>
+                <div id="shovel-container" style="margin-left:10px; cursor:pointer; border:2px solid #555; border-radius:4px; padding:2px; background:rgba(0,0,0,0.3);">
+                    <img id="shovel-btn" src="assets/svg/shovel.svg" width="50" height="50" title="铲子">
+                </div>
+                <div id="controls">
+                    <label for="zombie-type">僵尸:</label>
+                    <select id="zombie-type">
+                        <option value="normal">普通僵尸</option>
+                        <option value="bucket">铁桶僵尸</option>
+                        <option value="exploder">爆破僵尸</option>
+                        <option value="football">橄榄球僵尸</option>
+                        <option value="football_forward">橄榄球前锋僵尸</option>
+                        <option value="fisher">渔夫僵尸</option>
+                        <option value="gargantuar">巨人僵尸</option>
+                    </select>
+                    <button id="place-zombie">Place Zombie</button>
+                    <button id="reset">Reset</button>
+                    <a id="encyclopedia-link" href="encyclopedia.html" class="btn">图鉴</a>
+                </div>
+            </div>
+    </div>
+
+    <canvas id="game" width="1440" height="800"></canvas>
+
+
+    <script src="js/constants.js"></script>
+    <script src="js/assets.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/classes/bullet.js"></script>
+    <script src="js/classes/plants.js"></script>
+    <script src="js/classes/zombies.js"></script>
+    <script src="js/draw.js"></script>
+    <script src="js/level.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
