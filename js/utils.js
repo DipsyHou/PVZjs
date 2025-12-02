@@ -22,6 +22,22 @@ function spawnParticles(x, y, color, count, opts){
             life = 600;
             size = 2 + Math.random()*4;
             gravity = 1200;
+        } else if(style === 'dust'){
+            // Dust: small, falls slowly
+            const speed = 10 + Math.random()*30;
+            vx = Math.cos(angle)*speed;
+            vy = Math.sin(angle)*speed;
+            life = 400 + Math.random()*300;
+            size = 2 + Math.random()*3;
+            gravity = 50;
+        } else if(style === 'ring'){
+            // Ring: expands outward, no gravity
+            const speed = 100 + Math.random()*50;
+            vx = Math.cos(angle)*speed;
+            vy = Math.sin(angle)*speed;
+            life = 400;
+            size = 3 + Math.random()*2;
+            gravity = 0;
         } else {
             // Smoke style (default)
             const speed = 10 + Math.random() * 80;

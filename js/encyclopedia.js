@@ -7,7 +7,7 @@
     { id: 'watermelon', name: '西瓜投手', color: '#3aa0b8', cost: 300, hp: 200, cd: 7, desc: '投掷西瓜，命中时造成伤害和3*3范围的溅射' },
     { id: 'sunflower', name: '向日葵', color: '#f1c40f', cost: 50, hp: 200, cd: 7, desc: '生产阳光' },
     { id: 'bomber', name: '石榴轰炸机', color: '#000000', cost: 200, hp: 200, cd: 7, desc: '向本行及邻行投掷至多6颗石榴炸弹' },
-    { id: 'coconut', name: '冰镇椰子', color: '#aee7ff', cost: 175, hp: 200, cd: 30, desc: '击退并伤害碰到的敌人，向前方滚动至多4格后爆炸，造成3*3范围的群体减速与伤害' },
+    { id: 'iced_coconut', name: '冰镇椰子', color: '#aee7ff', cost: 175, hp: 200, cd: 30, desc: '击退并伤害碰到的敌人，向前方滚动至多4格后爆炸，造成3*3范围的群体减速与伤害' },
     { id: 'trumpet', name: '喇叭花', color: '#ff69b4', cost: 50, hp: 200, cd: 30, desc: '聚集附近的豌豆子弹' },
     { id: 'pine_shooter', name: '松针射手', color: '#2e8b57', cost: 150, hp: 200, cd: 7, desc: '发射可穿透僵尸，且可被点燃的松针' },
     { id: 'gold_bloom', name: '黄金蓓蕾', color: '#ffd700', cost: 150, hp: 50, cd: 50, desc: '种下一段时间后产出大量阳光，随后消失' },
@@ -23,7 +23,8 @@
     { id: 'wild_gatling', name: '狂野机枪豌豆', color: '#006400', cost: 450, hp: 200, cd: 30, desc: '向前方5个方向扫射，每个方向发射4颗豌豆' },
     { id: 'ninja_nut', name: '忍者坚果', color: '#8B4513', cost: 100, hp: 4000, cd: 30, desc: '种下后会在周围召唤两个相同的坚果' },
     { id: 'citron', name: '充能柚子', color: '#FFA500', cost: 200, hp: 200, cd: 7, desc: '鼠标点击发射能量球。能量球的大小，伤害，穿透性都会随蓄力时间增加而增加' },
-    { id: 'corn_homing', name: '玉米追踪射手', color: '#FFEB3B', cost: 375, hp: 200, cd: 7, desc: '发射追踪玉米粒，小概率发射能够定身僵尸的黄油块' }
+    { id: 'corn_homing', name: '玉米追踪射手', color: '#FFEB3B', cost: 375, hp: 200, cd: 7, desc: '发射追踪玉米粒，小概率发射能够定身僵尸的黄油块' },
+    { id: 'corn_gatling', name: '玉米机枪', color: '#FFD700', cost: 275, hp: 200, cd: 7, desc: '发射玉米粒攻击。连续攻击时间越长，攻速越快' }
   ]; 
   const zombies = [
     { id: 'normal', name: '普通僵尸', color: '#6b6b6b', hp: 200, speed: 20, desc: '普通的僵尸' },
@@ -54,30 +55,15 @@
       icon.style.background = 'transparent';
       icon.textContent = '';
       const img = document.createElement('img');
-      if(data.id === 'peashooter') img.src = '../assets/png/peashooter.png';
-      else if(data.id === 'sunflower') img.src = '../assets/png/sunflower.png';
-      else if(data.id === 'spread') img.src = '../assets/png/peasecod.png';
-      else if(data.id === 'torchwood') img.src = '../assets/png/torchwood.png';
-      else if(data.id === 'watermelon') img.src = '../assets/png/watermelon.png';
-      else if(data.id === 'mimic') img.src = '../assets/png/mimic.png';
-      else if(data.id === 'bomber') img.src = '../assets/svg/bomber.svg';
-      else if(data.id === 'coconut') img.src = '../assets/png/iced-coconut.png';
-      else if(data.id === 'trumpet') img.src = '../assets/svg/trumpet.svg';
-      else if(data.id === 'pine_shooter') img.src = '../assets/svg/pine-shooter.svg';
-      else if(data.id === 'gold_bloom') img.src = '../assets/png/gold-blooms.png';
-      else if(data.id === 'spiky_pumpkin') img.src = '../assets/svg/spiky-pumpkin.svg';
-      else if(data.id === 'jalapeno_pair') img.src = '../assets/svg/jalapeno-pair.svg';
-      else if(data.id === 'reshaper') img.src = '../assets/svg/reshaper.svg';
-      else if(data.id === 'time_machine') img.src = '../assets/svg/time-machine.svg';
-      else if(data.id === 'laser_shroom') img.src = '../assets/svg/laser-shroom.svg';
-      else if(data.id === 'windmill') img.src = '../assets/svg/windmill.svg';
-      else if(data.id === 'electrode_cherry') img.src = '../assets/svg/electrode-cherry.svg';
-      else if(data.id === 'vine_trap') img.src = '../assets/svg/vine-trap.svg';
-      else if(data.id === 'wild_gatling') img.src = '../assets/png/wild-gatling.png';
-      else if(data.id === 'ninja_nut') img.src = '../assets/png/ninja-nut.png';
-      else if(data.id === 'citron') img.src = '../assets/png/citron.png';
-      else if(data.id === 'corn_homing') img.src = '../assets/svg/corn-homing.svg';
-      else img.src = '../assets/png/peashooter.png';
+      
+      // Use preloaded assets if available
+      if (typeof plantImages !== 'undefined' && plantImages[data.id]) {
+        img.src = plantImages[data.id].src;
+      } else {
+        // Fallback or if assets.js not loaded (though we added it)
+        img.src = '../assets/png/peashooter.png';
+      }
+      
       img.className = 'ency-icon-img';
       icon.appendChild(img);
       const cost = document.createElement('span'); cost.className='small-badge'; cost.textContent = '花费: ' + (data.cost || '-');
@@ -89,13 +75,14 @@
       icon.style.background = 'transparent';
       icon.textContent = '';
       const img = document.createElement('img');
-      if(data.id === 'normal') img.src = '../assets/png/zombie.png';
-      else if(data.id === 'bucket') img.src = '../assets/png/bucket-zombie.png';
-      else if(data.id === 'exploder') img.src = '../assets/svg/exploder-zombie.svg';
-      else if(data.id === 'football') img.src = '../assets/png/rugby-zombie.png';
-      else if(data.id === 'football_forward') img.src = '../assets/png/football-forward.png';
-      else if(data.id === 'fisher') img.src = '../assets/svg/fisher-zombie.svg';
-      else if(data.id === 'gargantuar') img.src = '../assets/png/gargantuar.png';
+      
+      // Use preloaded assets if available
+      if (typeof zombieImages !== 'undefined' && zombieImages[data.id]) {
+        img.src = zombieImages[data.id].src;
+      } else {
+        img.src = '../assets/png/zombie.png';
+      }
+
       img.className = 'ency-icon-img';
       icon.appendChild(img);
 

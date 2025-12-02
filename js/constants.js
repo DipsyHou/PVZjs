@@ -31,5 +31,6 @@ const PLANT_CONFIGS = {
     ninja_nut: { name: '忍者坚果', cost: 100, cooldown: 30000 },
     citron: { name: '充能柚子', cost: 200, cooldown: 7000 },
     corn_homing: { name: '玉米追踪射手', cost: 375, cooldown: 7000 },
+    corn_gatling: { name: '玉米机枪', cost: 275, cooldown: 7000 },
 };
 

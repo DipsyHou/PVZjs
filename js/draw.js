@@ -31,7 +31,10 @@ function draw(){
     for(const b of bullets) b.draw(ctx);
 
     // draw zombies
-    for(const z of zombies) z.draw(ctx);
+    for(const z of zombies) {
+        z.draw(ctx);
+        if(typeof z.drawHP === 'function') z.drawHP(ctx);
+    }
 
     // draw particles (on top)
     for(const p of particles){
