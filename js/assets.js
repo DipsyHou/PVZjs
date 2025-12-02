@@ -33,4 +33,5 @@ const zombieImages = {
     football_forward: (() => { const img = new Image(); img.src = '../assets/png/football-forward.png'; return img; })(),
     fisher: (() => { const img = new Image(); img.src = '../assets/svg/fisher-zombie.svg'; return img; })(),
     gargantuar: (() => { const img = new Image(); img.src = '../assets/png/gargantuar.png'; return img; })(),
+    priest: (() => { const img = new Image(); img.src = '../assets/svg/priest-zombie.svg'; return img; })(),
 };

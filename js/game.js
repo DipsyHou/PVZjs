@@ -227,6 +227,7 @@ function spawnZombie(row, type){
     if(typeof row === 'undefined' || row === null){
         row = Math.floor(Math.random()*ROWS);
         const z = new Zombie(row, type || 'normal');
+        z.x = canvas.width - 20; // Spawn slightly closer to the screen edge
         zombies.push(z);
         return;
     }

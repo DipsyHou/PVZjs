@@ -32,8 +32,9 @@
     { id: 'exploder', name: '爆破僵尸', color: '#b33', hp: 200, speed: 40, desc: '被杀死或触碰到植物会立即自爆，伤害3×3范围内的植物' },
     { id: 'football', name: '橄榄球僵尸', color: '#5D4037', hp: 1800, speed: 40, desc: '移动速度快，装备的护具能吸收8倍于自身血量的伤害' },
     { id: 'football_forward', name: '橄榄球前锋僵尸', color: '#5D4037', hp: 3400, speed: 45, desc: '速度极快，装备更强的护具，会将前方的植物推开，无法推动时才进行攻击' },
-    { id: 'fisher', name: '渔夫僵尸', color: '#6b6b6b', hp: 400, speed: 20, desc: '使用钩锁将远处的植物拉向自己' },
-    { id: 'gargantuar', name: '巨人僵尸', color: '#6b6b6b', hp: 4500, speed: 15, desc: '体型巨大，生命值极高，会砸扁阻拦的植物' }
+    { id: 'fisher', name: '渔夫僵尸', color: '#6b6b6b', hp: 200, speed: 20, desc: '使用钩锁将远处的植物拉向自己' },
+    { id: 'gargantuar', name: '巨人僵尸', color: '#6b6b6b', hp: 4500, speed: 15, desc: '体型巨大，生命值极高，会砸扁阻拦的植物' },
+        { id: 'priest', name: '牧师僵尸', color: '#9C27B0', hp: 200, speed: 20, desc: '为距离最近的受伤僵尸回复生命值' }
   ];
 
   const listPlant = document.getElementById('plants-list');

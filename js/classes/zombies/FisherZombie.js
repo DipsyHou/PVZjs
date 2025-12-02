@@ -1,7 +1,7 @@
 class FisherZombie extends BaseZombie {
     constructor(row) {
         super(row, 'fisher');
-        this.hp = 400;
+        this.hp = 200;
         this.maxHp = this.hp;
         this.speed = 20;
         this.baseSpeed = this.speed;

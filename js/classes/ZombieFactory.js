@@ -9,6 +9,7 @@ function Zombie(row, type) {
         case 'football_forward': return new FootballForwardZombie(row);
         case 'gargantuar': return new GargantuarZombie(row);
         case 'fisher': return new FisherZombie(row);
+        case 'priest': return new PriestZombie(row);
         default:
             console.warn(`Unknown zombie type: ${type}, defaulting to NormalZombie`);
             return new NormalZombie(row);

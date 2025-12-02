@@ -6,7 +6,7 @@ class WildGatling extends BasePlant {
     }
 
     update(dt) {
-        this.shootTimer += dt;
+        super.update(dt);
 
         const burstTimes = [150, 300, 450, 600];
         const hasTarget = zombies.some(z => z.row === this.row && z.x > this.x);
@@ -33,10 +33,9 @@ class WildGatling extends BasePlant {
             }
             this._wildBurstIndex++;
         }
+    }
 
-        if(this.shootTimer >= this.shootInterval){
-            this.shootTimer = 0;
-            this._wildBurstIndex = 0;
-        }
+    shoot() {
+        this._wildBurstIndex = 0;
     }
 }

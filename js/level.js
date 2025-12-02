@@ -95,18 +95,20 @@ class LevelManager {
 
             if (difficultyLevel >= 20) {
                 if (r < 0.1) type = 'football_forward';
-                else if (r < 0.2) type = 'fisher';
+                else if (r < 0.15) type = 'fisher';
                 else if (r < 0.3) type = 'gargantuar';
                 else if (r < 0.5) type = 'football';
                 else if (r < 0.6) type = 'exploder';
+                else if (r < 0.7) type = 'priest';
                 else type = 'bucket';
             } else if (difficultyLevel >= 15) {
                 if (r < 0.05) type = 'football_forward';
-                else if (r < 0.1) type = 'fisher';
+                else if (r < 0.08) type = 'fisher';
                 else if (r < 0.15) type = 'gargantuar';
                 else if (r < 0.25) type = 'football';
                 else if (r < 0.4) type = 'exploder';
                 else if (r < 0.6) type = 'bucket';
+                else if (r < 0.7) type = 'priest';
                 else type = 'normal';
             } else if (difficultyLevel >= 10) {
                 if (r < 0.1) type = 'football';
