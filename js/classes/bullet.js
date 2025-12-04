@@ -93,7 +93,8 @@ Bullet.prototype.update = function(dt){
     return this.checkCollisions();
 }
 
-Bullet.prototype.explode = function(x, y, splashDamage){
+Bullet.prototype.explode = function(x, y, splashDamage, range){
+    range = (typeof range === 'number') ? range : 1;
     spawnParticles(x, y, '#ffb36b', 18, {style: 'spark'});
     const centerCol = Math.floor(x / CELL);
     const centerRow = Math.floor(y / CELL);
@@ -101,7 +102,7 @@ Bullet.prototype.explode = function(x, y, splashDamage){
         const other = zombies[k];
         const col = Math.floor((other.x + other.width/2) / CELL);
         const row = Math.floor((other.y + other.height/2) / CELL);
-        if(Math.abs(col - centerCol) <= 1 && Math.abs(row - centerRow) <= 1){
+        if(Math.abs(col - centerCol) <= range && Math.abs(row - centerRow) <= range){
             other.takeDamage(splashDamage || 0);
         }
     }
@@ -111,7 +112,7 @@ Bullet.prototype.checkCollisions = function(){
     // 空爆 / 到达终点
     if(this._expired){
         if(this.kind === 'watermelon'){
-            this.explode(this.x, this.y, this.splash || 0);
+            this.explode(this.x, this.y, this.splash, 1);
         }
         else if(this.kind === 'bomb'){
         }
@@ -156,11 +157,11 @@ Bullet.prototype.checkCollisions = function(){
             const zx = z.x + z.width/2;
             const zy = z.y + z.height/2;
             z.takeDamage(this.damage);
-            this.explode(zx, zy, this.splash || 0);
+            this.explode(zx, zy, this.splash, 1);
         } else if(this.kind === 'popcorn'){
             const zx = z.x + z.width/2;
             const zy = z.y + z.height/2;
-            this.explode(zx, zy, this.damage);
+            this.explode(zx, zy, this.damage, 0); // range 0 = single cell
         } else {
             z.takeDamage(this.damage);
         }

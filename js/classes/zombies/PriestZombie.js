@@ -11,6 +11,13 @@ class PriestZombie extends BaseZombie {
     }
 
     update(dt) {
+        // If stunned, stop healing logic
+        if(this.stunRemaining > 0){
+            super.update(dt);
+            this.healTarget = null;
+            return;
+        }
+
         // Handle cooldown
         if (this.linkCooldown > 0) {
             this.linkCooldown -= dt;

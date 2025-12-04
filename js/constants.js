@@ -32,5 +32,6 @@ const PLANT_CONFIGS = {
     citron: { name: '充能柚子', cost: 200, cooldown: 7000 },
     corn_homing: { name: '玉米追踪射手', cost: 375, cooldown: 7000 },
     corn_gatling: { name: '玉米机枪', cost: 275, cooldown: 7000 },
+    jelly: { name: '果冻', cost: 125, cooldown: 7000 },
 };
 

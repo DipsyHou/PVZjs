@@ -25,7 +25,8 @@ function Plant(col, row, type) {
         case 'corn_homing': return new CornHoming(col, row);
         case 'corn_gatling': return new CornGatling(col, row);
         case 'iced_coconut': return new IcedCoconut(col, row);
-        default: 
+        case 'jelly': return new Jelly(col, row);
+        default:  
             console.warn(`Unknown plant type: ${type}, defaulting to Peashooter`);
             return new Peashooter(col, row);
     }

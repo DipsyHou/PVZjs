@@ -18,9 +18,33 @@ const particles = [];
 let lastPlantedType = null;
 
 // plant card bar setup
+// selected plant type is chosen from deck UI; keep default for fallback
 let selectedPlantType = 'peashooter';
+// plantSlotBar removed from main UI; keep null if not present
 const plantSlotBar = document.getElementById('plant-slot-bar');
 const plantCooldowns = {}; // type -> remaining ms
+
+// Deck state (loaded from level setup)
+let selectedDeck = null; // null -> not loaded yet; otherwise array of plant keys
+
+function loadSelectedDeck(){
+	try{
+		const raw = localStorage.getItem('pvz_selected_deck');
+		if(raw){
+			const arr = JSON.parse(raw);
+			if(Array.isArray(arr)){
+				selectedDeck = arr;
+				return;
+			}
+		}
+	}catch(e){ console.warn('Failed to load selected deck', e); }
+	// fallback: include all
+	selectedDeck = Object.keys(PLANT_CONFIGS || {});
+}
+
+function saveSelectedDeck(){
+	try{ localStorage.setItem('pvz_selected_deck', JSON.stringify(selectedDeck)); }catch(e){ console.warn('Failed to save deck', e); }
+}
 
 // shovel tool
 let shovelMode = false;

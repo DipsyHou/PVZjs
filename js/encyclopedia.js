@@ -24,7 +24,8 @@
     { id: 'ninja_nut', name: '忍者坚果', color: '#8B4513', cost: 100, hp: 4000, cd: 30, desc: '种下后会在周围召唤两个相同的坚果' },
     { id: 'citron', name: '充能柚子', color: '#FFA500', cost: 200, hp: 200, cd: 7, desc: '鼠标点击发射能量球。能量球的大小，伤害，穿透性都会随蓄力时间增加而增加' },
     { id: 'corn_homing', name: '玉米追踪射手', color: '#FFEB3B', cost: 375, hp: 200, cd: 7, desc: '发射追踪玉米粒，小概率发射能够定身僵尸的黄油块' },
-    { id: 'corn_gatling', name: '玉米机枪', color: '#FFD700', cost: 275, hp: 200, cd: 7, desc: '发射玉米粒攻击。连续攻击时间越长，攻速越快' }
+    { id: 'corn_gatling', name: '玉米机枪', color: '#FFD700', cost: 275, hp: 200, cd: 7, desc: '发射玉米粒攻击。连续攻击时间越长，攻速越快' },
+    { id: 'jelly', name: '果冻', color: '#aee7ff', cost: 125, hp: 500, cd: 7, desc: '反弹直线型子弹'}
   ]; 
   const zombies = [
     { id: 'normal', name: '普通僵尸', color: '#6b6b6b', hp: 200, speed: 20, desc: '普通的僵尸' },
@@ -34,7 +35,7 @@
     { id: 'football_forward', name: '橄榄球前锋僵尸', color: '#5D4037', hp: 3400, speed: 45, desc: '速度极快，装备更强的护具，会将前方的植物推开，无法推动时才进行攻击' },
     { id: 'fisher', name: '渔夫僵尸', color: '#6b6b6b', hp: 200, speed: 20, desc: '使用钩锁将远处的植物拉向自己' },
     { id: 'gargantuar', name: '巨人僵尸', color: '#6b6b6b', hp: 4500, speed: 15, desc: '体型巨大，生命值极高，会砸扁阻拦的植物' },
-        { id: 'priest', name: '牧师僵尸', color: '#9C27B0', hp: 200, speed: 20, desc: '为距离最近的受伤僵尸回复生命值' }
+    { id: 'priest', name: '牧师僵尸', color: '#9C27B0', hp: 200, speed: 20, desc: '为距离最近的受伤僵尸回复生命值' }
   ];
 
   const listPlant = document.getElementById('plants-list');

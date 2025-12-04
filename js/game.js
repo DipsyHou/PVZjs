@@ -1,12 +1,17 @@
 // plant card bar setup
 function createPlantCards(){
+    // plantSlotBar may be absent if selection moved to setup page
     if(!plantSlotBar) return;
     if(typeof PLANT_CONFIGS === 'undefined' || typeof plantImages === 'undefined') {
         console.error("PLANT_CONFIGS or plantImages missing");
         return;
     }
+    // ensure deck is loaded
+    if(selectedDeck === null && typeof loadSelectedDeck === 'function') loadSelectedDeck();
+    const typesToShow = Array.isArray(selectedDeck) && selectedDeck.length ? selectedDeck : Object.keys(PLANT_CONFIGS);
+
     plantSlotBar.innerHTML = '';
-    Object.keys(PLANT_CONFIGS).forEach(type => {
+    typesToShow.forEach(type => {
         const cfg = PLANT_CONFIGS[type];
         if(!plantImages[type]) {
             console.warn("Missing image for plant type:", type);

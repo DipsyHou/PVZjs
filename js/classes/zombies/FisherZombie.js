@@ -12,6 +12,12 @@ class FisherZombie extends BaseZombie {
     }
 
     update(dt) {
+        // If stunned, skip hook logic entirely (cooldown pauses, action pauses)
+        if(this.stunRemaining > 0){
+            super.update(dt);
+            return;
+        }
+
         // Hook logic
         if(this.hookCooldown > 0) this.hookCooldown -= dt;
 

@@ -57,6 +57,13 @@ class CornGatling extends BasePlant {
 
         const c = cellCenter(this.col, this.row);
         
-        bullets.push(new Bullet(c.x + 20, c.y, 400, 0, 20, 'corn'));
+        if(Math.random() < 0.1){
+            // 10% chance for butter
+            const b = new Bullet(c.x + 20, c.y, 400, 0, 40, 'butter');
+            b.stun = true;
+            bullets.push(b);
+        } else {
+            bullets.push(new Bullet(c.x + 20, c.y, 400, 0, 20, 'corn'));
+        }
     }
 }

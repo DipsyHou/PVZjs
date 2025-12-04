@@ -23,6 +23,7 @@ const plantImages = {
     citron: (() => { const img = new Image(); img.src = '../assets/png/citron.png'; return img; })(),
     corn_homing: (() => { const img = new Image(); img.src = '../assets/svg/corn-homing.svg'; return img; })(),
     corn_gatling: (() => { const img = new Image(); img.src = '../assets/svg/corn-gatling.svg'; return img; })(),
+    jelly: (() => { const img = new Image(); img.src = '../assets/svg/jelly.svg'; return img; })(),
 };
 
 const zombieImages = {

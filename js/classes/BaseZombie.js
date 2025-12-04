@@ -70,8 +70,8 @@ class BaseZombie {
                 // check if target plant is still there and alive
                 if(this.targetPlant.hp <= 0 || !plants.includes(this.targetPlant)){
                     this.targetPlant = null;
-                } else {
-                    // attack logic
+                } else if(this.stunRemaining <= 0){
+                    // attack logic (only if not stunned)
                     const dmg = this.attackPower * (dt/1000);
                     let actualTarget = this.targetPlant;
                     if(this.targetPlant.pumpkin && this.targetPlant.pumpkin.hp > 0){
@@ -85,6 +85,9 @@ class BaseZombie {
                         this.takeDamage(20 * (dt/1000));
                     }
 
+                    currentSpeed = 0;
+                } else {
+                    // Stunned: do not attack, but keep targetPlant set so we resume later
                     currentSpeed = 0;
                 }
             }

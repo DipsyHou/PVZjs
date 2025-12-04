@@ -95,7 +95,7 @@ class LevelManager {
 
             if (difficultyLevel >= 20) {
                 if (r < 0.1) type = 'football_forward';
-                else if (r < 0.15) type = 'fisher';
+                else if (r < 0.2) type = 'fisher';
                 else if (r < 0.3) type = 'gargantuar';
                 else if (r < 0.5) type = 'football';
                 else if (r < 0.6) type = 'exploder';
@@ -103,7 +103,7 @@ class LevelManager {
                 else type = 'bucket';
             } else if (difficultyLevel >= 15) {
                 if (r < 0.05) type = 'football_forward';
-                else if (r < 0.08) type = 'fisher';
+                else if (r < 0.1) type = 'fisher';
                 else if (r < 0.15) type = 'gargantuar';
                 else if (r < 0.25) type = 'football';
                 else if (r < 0.4) type = 'exploder';
@@ -146,5 +146,15 @@ class LevelManager {
     }
 }
 
-// Global instance
-const levelManager = new LevelManager(LEVEL_1_CONFIG);
+// Read selected map/mode from setup page
+const _selectedMap = localStorage.getItem('pvz_selected_map') || 'level1';
+const _selectedMode = localStorage.getItem('pvz_selected_mode') || 'normal';
+
+let chosenConfig = LEVEL_1_CONFIG;
+if(_selectedMap === 'endless'){
+    // a minimal endless config
+    chosenConfig = { initialSun: 2000, waves: [{}] };
+}
+
+const levelManager = new LevelManager(chosenConfig);
+levelManager.difficulty = _selectedMode;

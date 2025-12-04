@@ -13,19 +13,24 @@ class GargantuarZombie extends BaseZombie {
         super.update(dt);
         
         if(this.targetPlant){
-            this.smashTimer += dt;
-            if(this.smashTimer >= 1000){
-                // Smash!
-                spawnParticles(this.targetPlant.x + CELL/2, this.targetPlant.y + CELL/2, '#ff0000', 20, {style: 'spark'});
-                
-                // Deal massive damage to pumpkin or plant
-                if(this.targetPlant.pumpkin && this.targetPlant.pumpkin.hp > 0){
-                    this.targetPlant.pumpkin.hp = -9999;
-                } else {
-                    this.targetPlant.hp = -9999;
+            // If stunned, pause smash timer and do not perform smash
+            if(this.stunRemaining > 0){
+                // paused while stunned
+            } else {
+                this.smashTimer += dt;
+                if(this.smashTimer >= 1000){
+                    // Smash!
+                    spawnParticles(this.targetPlant.x + CELL/2, this.targetPlant.y + CELL/2, '#ff0000', 20, {style: 'spark'});
+
+                    // Deal massive damage to pumpkin or plant
+                    if(this.targetPlant.pumpkin && this.targetPlant.pumpkin.hp > 0){
+                        this.targetPlant.pumpkin.hp = -9999;
+                    } else {
+                        this.targetPlant.hp = -9999;
+                    }
+
+                    this.smashTimer = 0;
                 }
-                
-                this.smashTimer = 0;
             }
         } else {
             this.smashTimer = 0;
