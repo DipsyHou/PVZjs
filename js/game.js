@@ -102,6 +102,13 @@ canvas.addEventListener('click', (e)=>{
     const {col,row} = worldToCell(mx,my);
     if(col<0||col>=COLS||row<0||row>=ROWS) return;
 
+    // Check terrain constraints
+    if (terrainGrid[row][col] === TERRAIN.OBSTACLE) {
+        // Cannot interact with obstacle cells (cannot plant, cannot shovel, cannot place zombie)
+        // Unless we add logic to remove obstacle with shovel? For now, "never disappear".
+        return;
+    }
+
     if(placeZombieMode){
         // place zombie at clicked grid cell if empty (do not place on occupied)
         if(grid[row][col]) return; // occupied by plant
@@ -324,6 +331,11 @@ function update(dt){
 function reset(){
     for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) grid[r][c]=null;
     plants.length=0; zombies.length=0; bullets.length=0; 
+    
+    // Initialize terrain based on selected map
+    const mapType = localStorage.getItem('pvz_selected_map') || 'level1';
+    if(typeof initTerrain === 'function') initTerrain(mapType);
+
     if(typeof levelManager !== 'undefined') {
         levelManager.start();
     } else {
@@ -332,12 +344,8 @@ function reset(){
 }
 
 // start
-// Initialize level
-if(typeof levelManager !== 'undefined') {
-    levelManager.start();
-} else {
-    document.getElementById('sun-count').textContent = sun;
-}
+// Initialize game
+reset();
 
 requestAnimationFrame(loop);
 canvas.addEventListener('mousemove', (e)=>{

@@ -35,8 +35,8 @@ class FisherZombie extends BaseZombie {
                     const newCol = currentCol + 1;
                     
                     // Pull forward 1 grid (to the right)
-                    // Check if destination is valid (inside grid and empty)
-                    if(newCol < COLS && !grid[this.row][newCol]){
+                    // Check if destination is valid (inside grid and empty, and not obstacle)
+                    if(newCol < COLS && !grid[this.row][newCol] && terrainGrid[this.row][newCol] !== TERRAIN.OBSTACLE){
                         grid[this.row][currentCol] = null;
                         grid[this.row][newCol] = p;
                         p.col = newCol;

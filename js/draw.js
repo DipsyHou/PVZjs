@@ -2,11 +2,28 @@ function draw(){
     // background
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // draw grid
+    // draw terrain
     for(let r=0;r<ROWS;r++){
         for(let c=0;c<COLS;c++){
+            const type = terrainGrid[r][c];
+            const x = c*CELL;
+            const y = r*CELL;
+            
+            if(type === TERRAIN.OBSTACLE){
+                // Draw stone
+                ctx.fillStyle = '#888';
+                ctx.fillRect(x+10, y+10, CELL-20, CELL-20);
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x+10, y+10, CELL-20, CELL-20);
+                // Stone detail
+                ctx.fillStyle = '#666';
+                ctx.fillRect(x+20, y+20, CELL-40, CELL-40);
+            }
+            
+            // draw grid lines
             ctx.strokeStyle = '#2b6f9e'; ctx.lineWidth=2;
-            ctx.strokeRect(c*CELL, r*CELL, CELL, CELL);
+            ctx.strokeRect(x, y, CELL, CELL);
         }
     }
 

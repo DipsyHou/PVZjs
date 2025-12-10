@@ -134,6 +134,19 @@ Bullet.prototype.checkCollisions = function(){
         return false;
     }
 
+    // Check terrain collision (Obstacles block linear bullets)
+    if (this.kind !== 'watermelon' && this.kind !== 'bomb' && this.kind !== 'citron_plasma') {
+        const col = Math.floor(this.x / CELL);
+        const row = Math.floor(this.y / CELL);
+        if (row >= 0 && row < ROWS && col >= 0 && col < COLS) {
+            if (terrainGrid[row][col] === TERRAIN.OBSTACLE) {
+                // Hit obstacle, disappear
+                spawnParticles(this.x, this.y, '#888', 5, {style: 'spark'});
+                return false; // dead
+            }
+        }
+    }
+
     let hitIndex = -1;
     for(let j=0;j<zombies.length;j++){
         const z = zombies[j];

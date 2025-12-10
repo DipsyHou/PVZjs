@@ -17,8 +17,8 @@ class FootballForwardZombie extends BaseZombie {
             const c = p.col;
             const upR = this.row - 1;
             const downR = this.row + 1;
-            const canUp = (upR >= 0 && !grid[upR][c]);
-            const canDown = (downR < ROWS && !grid[downR][c]);
+            const canUp = (upR >= 0 && !grid[upR][c] && terrainGrid[upR][c] !== TERRAIN.OBSTACLE);
+            const canDown = (downR < ROWS && !grid[downR][c] && terrainGrid[downR][c] !== TERRAIN.OBSTACLE);
 
             let targetR = -1;
 

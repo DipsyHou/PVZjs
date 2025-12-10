@@ -21,7 +21,7 @@ class NinjaNut extends BasePlant {
                 const targetRow = this.row + offset[1];
                 
                 if(targetCol >= 0 && targetCol < COLS && targetRow >= 0 && targetRow < ROWS){
-                    if(!grid[targetRow][targetCol]){
+                    if(!grid[targetRow][targetCol] && terrainGrid[targetRow][targetCol] !== TERRAIN.OBSTACLE){
                         const p = Plant(targetCol, targetRow, 'ninja_nut');
                         p._hasSpawnedExtras = true;
                         plants.push(p);

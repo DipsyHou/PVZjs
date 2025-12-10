@@ -2,29 +2,6 @@ const LEVEL_1_CONFIG = {
     initialSun: 2000,
     waves: [
         { time: 10000, zombies: ['normal'] },
-        // { time: 20000, zombies: ['normal'] },
-        // { time: 30000, zombies: ['normal', 'normal'] },
-        // { time: 40000, zombies: ['bucket'] },
-        // { time: 50000, zombies: ['normal', 'normal', 'normal'] },
-        // { time: 60000, zombies: ['bucket', 'normal'] },
-        // { time: 70000, zombies: ['football'] },
-        // { time: 80000, zombies: ['exploder', 'normal', 'normal'] },
-        // { time: 90000, zombies: ['bucket', 'bucket', 'normal'] },
-        // { time: 100000, zombies: ['football', 'bucket'] },
-        // { time: 110000, zombies: ['exploder', 'exploder', 'bucket'] },
-        // { time: 120000, zombies: ['normal', 'normal', 'normal', 'normal', 'bucket'] },
-        // { time: 130000, zombies: ['football', 'football'] },
-        // { time: 140000, zombies: ['bucket', 'bucket', 'bucket', 'exploder'] },
-        // { time: 150000, zombies: ['football', 'football', 'bucket', 'bucket', 'exploder', 'exploder'] },
-        // { time: 160000, zombies: ['exploder', 'normal', 'normal', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder'] },
-        // { time: 170000, zombies: ['bucket', 'exploder', 'football', 'exploder', 'exploder', 'exploder', 'exploder']},
-        // { time: 180000, zombies: ['football', 'football', 'bucket', 'bucket', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder'] },
-        // { time: 190000, zombies: ['football', 'football', 'bucket', 'bucket', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'normal', 'normal', 'normal'] },
-        // { time: 200000, zombies: ['football', 'football', 'bucket', 'bucket', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'normal', 'normal', 'normal', 'bucket', 'football'] },
-        // { time: 210000, zombies: ['football', 'football', 'bucket', 'bucket', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'normal', 'normal', 'normal', 'bucket', 'football', 'football'] },
-        // { time: 220000, zombies: ['football', 'football', 'bucket', 'bucket', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'normal', 'normal', 'normal', 'bucket', 'football', 'football', 'bucket'] },
-        // { time: 230000, zombies: ['football', 'football', 'football', 'football', 'football', 'football', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder'] },
-        // { time: 240000, zombies: ['football', 'football', 'football', 'football', 'football', 'football', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder', 'exploder'] }
     ]
 };
 
@@ -49,7 +26,8 @@ class LevelManager {
     }
 
     update(dt) {
-        // if (this.finished) return; // Removed finish check for endless mode
+        // Check if endless mode is enabled
+        const isEndless = localStorage.getItem('pvz_selected_mode') === 'endless';
         
         this.timer += dt;
 
@@ -59,10 +37,10 @@ class LevelManager {
                 this.spawnWave(nextWave.zombies);
                 this.waveIndex++;
             }
-        } else {
+        } else if (isEndless) {
             // Endless mode: spawn a random wave every 15 seconds
             // Base time is the time of the last configured wave
-            const lastWaveTime = this.config.waves[this.config.waves.length - 1].time;
+            const lastWaveTime = this.config.waves.length > 0 ? this.config.waves[this.config.waves.length - 1].time : 0;
             const endlessTime = this.timer - lastWaveTime;
             
             // Calculate which endless wave number we are on (1-based)
