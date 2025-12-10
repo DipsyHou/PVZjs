@@ -60,7 +60,7 @@ class CornGatling extends BasePlant {
         if(Math.random() < 0.1){
             // 10% chance for butter
             const b = new Bullet(c.x + 20, c.y, 400, 0, 40, 'butter');
-            b.stun = true;
+            b.stun = 4000;
             bullets.push(b);
         } else {
             bullets.push(new Bullet(c.x + 20, c.y, 400, 0, 20, 'corn'));

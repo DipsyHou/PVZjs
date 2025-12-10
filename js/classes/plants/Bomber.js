@@ -1,7 +1,7 @@
 class Bomber extends BasePlant {
     constructor(col, row) {
         super(col, row, 'bomber');
-        this.shootInterval = 4000;
+        this.shootInterval = 2000;
     }
 
     shoot() {
@@ -40,15 +40,15 @@ class Bomber extends BasePlant {
                 let t = Math.max(0.35, Math.min(1.0, Math.abs(dx) / 450));
                 const vx = dx / t;
                 const vy = (dy - 0.5 * g * t * t) / t;
-                const bm = new Bullet(startX, startY, vx, vy, 100 * windmillBoost, 'bomb');
+                const bm = new Bullet(startX, startY, vx, vy, 50 * windmillBoost, 'bomb');
                 bm.startX = startX; bm.startY = startY;
                 bm.targetX = targetX; bm.targetY = targetY;
                 bm.totalTime = t;
-                bm.radius = 16;
+                bm.radius = 8;
                 bm.target = target;
                 // originRow for bombs should be the intended target row so they only hit that row
                 bm.originRow = target.row;
-                bm.splash = 200 * windmillBoost; // 3x3 area 200 damage
+                bm.splash = 0 * windmillBoost; // 3x3 area 200 damage
                 bullets.push(bm);
             }
         }

@@ -2,8 +2,18 @@ function Bullet(x,y,vx,vy,damage, kind){
     this.x = x; this.y = y; this.vx = vx; this.vy = vy; this.damage = damage; this.radius=6;
     this.kind = kind || 'generic';
     this.isFire = false; // whether transformed by torchwood
-    this.pierce = false; // whether this bullet penetrates zombies
-    this.hitSet = null;  // for piercing bullets: track which zombies have been hit
+    
+    // Collision properties
+    this.pierce = 0;     // 0: no pierce (die on first hit), N: pierce N zombies
+    this.hitSet = null;  // track hit zombies
+
+    // Status effects
+    this.stun = 0;             // stun duration in ms
+    this.knockbackDist = 0;    // knockback distance in pixels
+    this.knockbackDuration = 0;// knockback duration in ms
+    this.slowDuration = 0;     // slow duration in ms
+    this.slowFactor = 1.0;     // speed multiplier (e.g. 0.5 for 50% slow)
+
     // for parabolic projectiles we record their spawn and target positions for rendering
     this.startX = x;
     this.startY = y;
@@ -93,16 +103,20 @@ Bullet.prototype.update = function(dt){
     return this.checkCollisions();
 }
 
-Bullet.prototype.explode = function(x, y, splashDamage, range){
-    range = (typeof range === 'number') ? range : 1;
+Bullet.prototype.explode = function(x, y, splashDamage, radius){
+    radius = (typeof radius === 'number') ? radius : CELL;
     spawnParticles(x, y, '#ffb36b', 18, {style: 'spark'});
-    const centerCol = Math.floor(x / CELL);
-    const centerRow = Math.floor(y / CELL);
+    
+    const radiusSq = radius * radius;
+
     for(let k=zombies.length-1;k>=0;k--){
         const other = zombies[k];
-        const col = Math.floor((other.x + other.width/2) / CELL);
-        const row = Math.floor((other.y + other.height/2) / CELL);
-        if(Math.abs(col - centerCol) <= range && Math.abs(row - centerRow) <= range){
+        const zx = other.x + other.width/2;
+        const zy = other.y + other.height/2;
+        const dx = zx - x;
+        const dy = zy - y;
+        
+        if(dx*dx + dy*dy <= radiusSq){
             other.takeDamage(splashDamage || 0);
         }
     }
@@ -112,9 +126,10 @@ Bullet.prototype.checkCollisions = function(){
     // 空爆 / 到达终点
     if(this._expired){
         if(this.kind === 'watermelon'){
-            this.explode(this.x, this.y, this.splash, 1);
+            this.explode(this.x, this.y, this.splash, 1.5 * CELL);
         }
         else if(this.kind === 'bomb'){
+            this.explode(this.x, this.y, this.splash, 1.5 * CELL);
         }
         return false;
     }
@@ -123,7 +138,7 @@ Bullet.prototype.checkCollisions = function(){
     for(let j=0;j<zombies.length;j++){
         const z = zombies[j];
         // 穿透子弹：同一子弹对同一僵尸只结算一次伤害
-        if(this.pierce && this.hitSet && this.hitSet.has(z)) continue;
+        if(this.hitSet && this.hitSet.has(z)) continue;
         
         if(this.kind === 'watermelon' || this.kind === 'bomb'){
             // For parabolic projectiles, only ever hit their locked target
@@ -144,7 +159,7 @@ Bullet.prototype.checkCollisions = function(){
             // Check Y overlap
             if(bBottom > zTop && bTop < zBottom){
                 // Check X overlap
-                if(this.x + this.radius > z.x + 6 && this.x - this.radius < z.x + z.width){
+                if(this.x + this.radius > z.x + 0 && this.x - this.radius < z.x + z.width){
                     hitIndex = j; break;
                 }
             }
@@ -157,40 +172,47 @@ Bullet.prototype.checkCollisions = function(){
             const zx = z.x + z.width/2;
             const zy = z.y + z.height/2;
             z.takeDamage(this.damage);
-            this.explode(zx, zy, this.splash, 1);
+            this.explode(zx, zy, this.splash, 1.5 * CELL);
+        } else if(this.kind === 'bomb'){
+            const zx = z.x + z.width/2;
+            const zy = z.y + z.height/2;
+            z.takeDamage(this.damage);
+            this.explode(zx, zy, this.splash, 1.5 * CELL);
         } else if(this.kind === 'popcorn'){
             const zx = z.x + z.width/2;
             const zy = z.y + z.height/2;
-            this.explode(zx, zy, this.damage, 0); // range 0 = single cell
+            this.explode(zx, zy, this.damage, 0.75 * CELL); // range 0 = single cell
         } else {
             z.takeDamage(this.damage);
         }
         
-        if(this.stun){
-            z.stunRemaining = 4000; // 4s stun
+        // Stun effect
+        if(this.stun > 0){
+            z.stunRemaining = Math.max(z.stunRemaining || 0, this.stun);
         }
 
-        // Knockback effect (independent of pierce)
-        if(this.knockback){
-            // Apply knockback state to zombie
-            z.knockbackRemaining = 500; // 0.5s knockback duration
-            z.knockbackSpeed = 200; // Speed to push back
-            z._knockbackTargetX = z.x + 100; // Target X position
-            z.targetPlant = null; // Stop attacking
+        // Knockback effect
+        if(this.knockbackDist > 0 && this.knockbackDuration > 0){
+            z.knockbackRemaining = this.knockbackDuration;
+            z.knockbackSpeed = this.knockbackDist / (this.knockbackDuration / 1000);
+            z._knockbackTargetX = z.x + this.knockbackDist;
+            z.targetPlant = null; 
             z.smashTimer = 0;
         }
 
-        // 穿透子弹：不移除子弹，但同一颗子弹对同一只僵尸只生效一次
-        if(this.pierce){
-            if(!this.hitSet){
-                this.hitSet = new Set();
-            }
-            this.hitSet.add(z);
-            
-            // Limited pierce logic
-            if(typeof this.maxPierce === 'number' && this.hitSet.size > this.maxPierce){
-                return false; // dead
-            }
+        // Slow effect
+        if(this.slowDuration > 0){
+            z.slowRemaining = Math.max(z.slowRemaining || 0, this.slowDuration);
+            // Use the stronger slow (lower factor)
+            z.slowFactor = Math.min(z.slowFactor !== undefined ? z.slowFactor : 1.0, this.slowFactor);
+        }
+
+        // Pierce logic
+        if(!this.hitSet) this.hitSet = new Set();
+        this.hitSet.add(z);
+
+        if(this.pierce > 0){
+            this.pierce--;
             return true; // alive
         } else {
             return false; // dead
@@ -216,7 +238,7 @@ Bullet.prototype.draw = function(ctx){
         return;
     }
     if(this.kind === 'citron_plasma'){
-        ctx.fillStyle = this.knockback ? '#FF00FF' : '#00FFFF';
+        ctx.fillStyle = this.knockbackDuration ? '#FF00FF' : '#00FFFF';
         if(this.radius >= 100) ctx.fillStyle = '#FF0066';
         ctx.shadowBlur = 10;
         ctx.shadowColor = ctx.fillStyle;

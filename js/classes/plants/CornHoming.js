@@ -23,7 +23,7 @@ class CornHoming extends BasePlant {
             const rand = Math.random();
             let kind = 'corn';
             let damage = 20;
-            let stun = false;
+            let stun = 0;
             let splash = false;
             
             if(rand < 0.75){
@@ -32,7 +32,7 @@ class CornHoming extends BasePlant {
             } else {
                 kind = 'butter';
                 damage = 40;
-                stun = true;
+                stun = 4000;
             }
             
             const b = new Bullet(c.x + 20, c.y, 360, 0, damage, kind);

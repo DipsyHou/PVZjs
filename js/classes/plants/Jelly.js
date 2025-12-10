@@ -18,7 +18,11 @@ class Jelly extends BasePlant {
             if(b._reflectedBy && b._reflectedBy === this) continue; // already handled by this plant
             // (b.reflected) continue; // already reflected by someone else
             // ignore large parabolic projectiles
-            if(b.kind === 'watermelon' || b.kind === 'bomb') continue;
+            if(
+                b.kind === 'watermelon' ||
+                b.kind === 'bomb' ||
+                b.kind === 'citron_plasma'
+            ) continue;
             if(b.x >= left && b.x <= right && b.y >= top && b.y <= bottom){
                 // reflect horizontally
                 b.vx = -b.vx;

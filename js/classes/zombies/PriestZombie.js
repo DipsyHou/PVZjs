@@ -28,8 +28,17 @@ class PriestZombie extends BaseZombie {
         if (this.healTarget) {
             const z = this.healTarget;
             const max = z.maxHp || 200;
-            // Invalid if dead, full hp, or removed from game
-            if (z.hp <= 0 || z.hp >= max || !zombies.includes(z)) {
+            
+            // Check distance
+            const cx = this.x + this.width / 2;
+            const cy = this.y + this.height / 2;
+            const zcx = z.x + z.width / 2;
+            const zcy = z.y + z.height / 2;
+            const distSq = (cx - zcx) ** 2 + (cy - zcy) ** 2;
+            const maxDist = CELL * 3;
+
+            // Invalid if dead, full hp, removed from game, or too far
+            if (z.hp <= 0 || z.hp >= max || !zombies.includes(z) || distSq > maxDist * maxDist) {
                 this.healTarget = null;
                 this.linkCooldown = 1000; // 1s cooldown after break
             }
@@ -41,6 +50,8 @@ class PriestZombie extends BaseZombie {
             let minDistSq = Infinity;
             const cx = this.x + this.width / 2;
             const cy = this.y + this.height / 2;
+            const maxDist = CELL * 3;
+            const maxDistSq = maxDist * maxDist;
 
             for (const z of zombies) {
                 if (z === this || z.hp <= 0) continue;
@@ -52,7 +63,7 @@ class PriestZombie extends BaseZombie {
                 const zcy = z.y + z.height / 2;
                 const distSq = (cx - zcx) ** 2 + (cy - zcy) ** 2;
 
-                if (distSq < minDistSq) {
+                if (distSq < minDistSq && distSq <= maxDistSq) {
                     minDistSq = distSq;
                     nearest = z;
                 }

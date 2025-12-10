@@ -63,9 +63,11 @@ class Citron extends BasePlant {
 
         const b = new Bullet(c.x + 20, c.y, 600, 0, damage, 'citron_plasma');
         b.radius = radius;
-        b.pierce = true; 
-        b.maxPierce = pierceCount;
-        b.knockback = knockback;
+        b.pierce = pierceCount;
+        if(knockback){
+            b.knockbackDist = 80;
+            b.knockbackDuration = 300;
+        }
         
         this.chargeTime = 0;
         bullets.push(b);

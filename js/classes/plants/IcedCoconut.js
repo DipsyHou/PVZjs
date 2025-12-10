@@ -87,7 +87,7 @@ class IcedCoconut extends BasePlant {
                 if(Math.abs(col - centerCol) <= 1 && Math.abs(row - centerRow) <= 1){
                     other.slowRemaining = Math.max(other.slowRemaining || 0, 10000);
                     other.slowFactor = 0.4;
-                    other.takeDamage(300);
+                    other.takeDamage(1800);
                 }
             }
             const idx = plants.indexOf(this);

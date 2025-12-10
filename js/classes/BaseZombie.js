@@ -113,7 +113,7 @@ class BaseZombie {
                 const pRight = p.x + CELL - 10;
                 
                 // if overlap
-                if(zLeft < pRight && zRight > pLeft){
+                if(zLeft < pRight && zLeft > pLeft){
                     // collision!
                     // if plant is spiky_pumpkin, it might hurt zombie? (Not in original code, spiky just has high HP)
                     // if plant is floating, ignore? (Floating plants usually have hp=0 or are not in grid, but let's check)

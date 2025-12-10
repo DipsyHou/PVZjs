@@ -12,7 +12,7 @@ class PineShooter extends BasePlant {
         const speed = 720;
         const b = new Bullet(c.x + 20, c.y, speed, 0, 20, 'needle');
         b.radius = 4;
-        b.pierce = true;
+        b.pierce = 999;
         bullets.push(b);
     }
 
